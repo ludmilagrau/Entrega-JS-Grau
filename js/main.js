@@ -1,4 +1,3 @@
-
 // Función que calcula los intereses de las cuotas.
 const calculoIntereses = (prestamo, cuotas) => {
 	
@@ -10,9 +9,9 @@ const calculoIntereses = (prestamo, cuotas) => {
       prestamoConInteres = prestamo + prestamo * 20 / 100;
     }
 
-		cuotaConInteres = prestamoConInteres/cuotas;
+		valorCuota = Math.round(prestamoConInteres/cuotas);
 
-    return cuotaConInteres;
+    return valorCuota;
 }
 
  // Función que valida que el valor ingresado sea un número.
@@ -31,6 +30,8 @@ const validacionRespuesta = (respuesta, mensaje) => {
 	return respuesta;
 }
 
+// Inicializamos el array que contendrá el historial de préstamos del usuario.
+let prestamos = [];
 
 // Mensaje de bienvenida.
 alert("¡Bienvenido! :) ¿Desea sacar un préstamo? Lo invitamos a simular una financiación.");
@@ -43,7 +44,7 @@ do {
 	// Declaración de variables.
   let prestamo = 0;
   let cuotas = 0;
-  let cuotaConInteres = 0;
+  let valorCuota = 0;
   
 	// Solicitud al usuario de importe de préstamo.
   prestamo = parseFloat(prompt("Ingrese el importe del préstamo que desea simular."));
@@ -58,13 +59,25 @@ do {
 	cuotas = validacionNumber(cuotas, "El valor ingresado no es válido. Por favor ingrese la cantidad de cuotas en valor numérico mayor a 0.");
 
 	// Llamada de función de cálculo.
-  cuotaConInteres = calculoIntereses(prestamo, cuotas);
+  valorCuota = calculoIntereses(prestamo, cuotas);
+
+  // Por cada préstamo simulado se crea un objeto
+  class Prestamo {
+	constructor(prestamo, cuotas, valorCuota) {
+		this.prestamo = prestamo;
+		this.cuotas = cuotas;
+		this.valorCuota = valorCuota;
+	}
+  }
+
+  // Insertamos el objeto en el array de prestamos
+  prestamos.push(new Prestamo(prestamo, cuotas, valorCuota))
 
 	// Se muestra el resultado final del préstamo.
 	if(cuotas == 1) {
-		alert(`El préstamo de $${prestamo} se cotizará en 1 cuota de $${cuotaConInteres}`);
+		alert(`El préstamo de $${prestamo} se cotizará en 1 cuota de $${valorCuota}`);
 	} else {
-		alert(`El préstamo de $${prestamo} se cotizará en ${cuotas} cuotas de $${cuotaConInteres}`);
+		alert(`El préstamo de $${prestamo} se cotizará en ${cuotas} cuotas de $${valorCuota}`);
 	}
 
 	// Solicitud al usuario de continuación.
@@ -74,3 +87,8 @@ do {
 	respuesta = validacionRespuesta(respuesta, "El valor ingresado no es válido. Por favor, si desea continuar ingrese 'si', de lo contrario ingrese 'no'");
 
 } while (respuesta == "si");
+
+// Mostramos al usuario por consola el historial de los préstamos que simuló.
+alert("En la consola podrá ver el historial de los préstamos que ha simulado. Nos vemos la próxima!")
+
+console.table(prestamos)
