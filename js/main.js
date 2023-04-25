@@ -70,8 +70,14 @@ do {
 	}
   }
 
+
   // Insertamos el objeto en el array de prestamos
-  prestamos.push(new Prestamo(prestamo, cuotas, valorCuota))
+  prestamos.push(new Prestamo(prestamo, cuotas, valorCuota));
+
+  // Mapeamos los préstamos para obtener el importe de cada uno
+  prestamosActualizados = prestamos.map(prestamo => {
+	return prestamo.prestamo;
+  })
 
 	// Se muestra el resultado final del préstamo.
 	if(cuotas == 1) {
@@ -88,7 +94,5 @@ do {
 
 } while (respuesta == "si");
 
-// Mostramos al usuario por consola el historial de los préstamos que simuló.
-alert("En la consola podrá ver el historial de los préstamos que ha simulado. Nos vemos la próxima!")
-
-console.table(prestamos)
+// Mostramos al usuario el importe de los préstamos solicitados.
+alert("Ha simulado los siguientes préstamos: \n$" + prestamosActualizados.join("\n$") + ". \nNos vemos la próxima!")
