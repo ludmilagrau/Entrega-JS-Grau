@@ -12,17 +12,50 @@
 </head>
 <body>
     <div class="container__general">
+        <div class="alert">
+        </div>
         <div class="container__card">
             <h1>Préstamos Ludmila</h1>
             <div class="container__subtitle">
                 <h3 class="subtitle__left">¿Necesitás una ayuda? 💸💸<br/> ¡Con nosotros es muy fácil! 🤑</h3>
                 <h3 class="subtitle__right">100% ONLINE <br/> Depositamos en minutos</h3>
             </div>
-            <div class="container__img">
-                <image src="./assets/asset-project-coder1.svg"/>
-                <image src="./assets/asset-project-coder2.svg"/>
+         
+            <form class="form__container">
+                <label for="email" class="label">Email</label>
+                <input type="email" autocomplete="off" name="email" class="input__form" required>
+                <label for="prestamo" class="label">Importe</label>
+                <span id="importe" class="form__span">160000</span>
+                <input type="range" id="range" name="prestamo" min="20000" max="300000">
+                <label for="cuotas" class="label">Cuotas</label>
+                <div class="radio__container">
+                    <input class="radio__input" type="radio" name="cuotas" value="6" id="6" checked><label for="6" class="radio__label"> 6 cuotas</label>
+                    <input class="radio__input" type="radio" name="cuotas" value="12" id="12"><label for="12" class="radio__label" >12 cuotas</label>
+                    <input class="radio__input" type="radio" name="cuotas" value="18" id="18"><label for="18" class="radio__label" >18 cuotas</label>
+                    <input class="radio__input" type="radio" name="cuotas" value="24" id="24"><label for="24" class="radio__label" >24 cuotas</label>
+                </div>
+                <button type="submit" class="simular__button">Simulá tu préstamo</button>
+            </form>
+            <div class="results__container">
+                <div class="msj__container">
+                    <img class="img__icon" src="./assets/asset-project-coder-mail.svg" alt="Icono de mail" />
+                    <p class="text__results__email">Vas a recibir un mail con toda la información a&nbsp;</p> <p class="results__span__email"></p>
+                </div>
+                <p class="text__results">Simulaste un préstamo por</p> <span class="results__span" id="prestamo"></span>
+                <p class="text__results" id="cuotas__results"></p>
+                <p class="text__results">Cada mes vas a pagar</p> <span class="results__span" id="importe-cuota"></span>
+                <p class="text__results">La primer cuota la pagás el <span class="results__span__fecha"></span></p>
+                <button type="button" class="solicitar__button">Solicitá el préstamo</button>
+                <button type="reset" class="reset__button">Volvé a simular</button>
             </div>
-        </div>
+            <button class="historial__button">Historial de préstamos</button>
+            <div class="historial">
+               <p class="historial__vacio" style="text-align: center; width: 100%;">No has simulado préstamos aún!</p>
+            </div>
+            <div class="container__historial">
+                <image src="./assets/asset-project-coder2.svg"/>
+                <image src="./assets/asset-project-coder1.svg"/>
+            </div>
     </div>
     <script src="./js/main.js"></script>
 </body>
