@@ -11,6 +11,6 @@
 4) Te mostrará por prompt el importe del préstamo solicitado, la cantidad de cuotas, y el importe de las mismas con el interés agregado en ellas;
 5) Te preguntará si deseas solicitar otro préstamo, en caso de responder 'si', harás el ciclo completo nuevamente, en caso de responder 'no', se cortará el funcionamiento, en ese caso, si deseas volver a iniciar la simulación, tendrás que recargar la página;
 6) Se validará que hayas ingresado un valor válido ('si' o 'no').
-7) Una vez no desees seguir simulando préstamos, se te mostrará por consola el historial de préstamos simulados.
+7) Una vez no desees seguir simulando préstamos, se te mostrará el valor de los préstamos simulados.
 
 ¡Saludos!
