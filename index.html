@@ -12,8 +12,6 @@
 </head>
 <body>
     <div class="container__general">
-        <div class="alert">
-        </div>
         <div class="container__card">
             <h1>Préstamos Ludmila</h1>
             <div class="container__subtitle">
@@ -23,7 +21,7 @@
          
             <form class="form__container">
                 <label for="email" class="label">Email</label>
-                <input type="email" autocomplete="off" name="email" class="input__form" required>
+                <input type="email" autocomplete="off" name="email" class="input__form" id="email" required>
                 <label for="prestamo" class="label">Importe</label>
                 <span id="importe" class="form__span">160000</span>
                 <input type="range" id="range" name="prestamo" min="20000" max="300000">
@@ -39,7 +37,7 @@
             <div class="results__container">
                 <div class="msj__container">
                     <img class="img__icon" src="./assets/asset-project-coder-mail.svg" alt="Icono de mail" />
-                    <p class="text__results__email">Vas a recibir un mail con toda la información a&nbsp;</p> <p class="results__span__email"></p>
+                    <p class="text__results__email">Vas a recibir un mail con la confirmación a&nbsp;</p> <p class="results__span__email"></p>
                 </div>
                 <p class="text__results">Simulaste un préstamo por</p> <span class="results__span" id="prestamo"></span>
                 <p class="text__results" id="cuotas__results"></p>
@@ -52,11 +50,23 @@
             <div class="historial">
                <p class="historial__vacio" style="text-align: center; width: 100%;">No has simulado préstamos aún!</p>
             </div>
-            <div class="container__historial">
-                <image src="./assets/asset-project-coder2.svg"/>
-                <image src="./assets/asset-project-coder1.svg"/>
+            <div class="cotizaciones__container">
+                <h3 class="cotizaciones__title">Cotización del Dólar HOY</h3>
+                <table class="cotizaciones__table">
+                    <tr>
+                        <th>Tipo de dólar</th>        
+                        <th>Compra</th>
+                        <th>Venta</th>
+                    </tr>
+                </table>
             </div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+    emailjs.init('-5w-w1CeqZIE9VvDG')
+    </script>
     <script src="./js/main.js"></script>
 </body>
 </html>
