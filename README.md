@@ -1,4 +1,4 @@
-# PreEntrega3Grau
+# Proyecto final de curso de Javascript en Coderhouse
 
 ¡Hola! Este proyecto es un simulador de préstamo. El funcionamiento es el siguiente:
 
