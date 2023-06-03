@@ -2,14 +2,11 @@ const URL = "https://www.dolarsi.com/api/api.php?type=valoresprincipales";
 
 // Función que calcula los intereses de las cuotas.
 const calculoIntereses = (prestamo, cuotas) => {
-  if (cuotas <= 6) {
-    // Interés 5%
+  if (cuotas <= 6) { // Interés 5%
     prestamoConInteres = prestamo + (prestamo * 5) / 100;
-  } else if (cuotas <= 12) {
-    // Interés 10%
+  } else if (cuotas <= 12) { // Interés 10%
     prestamoConInteres = prestamo + (prestamo * 10) / 100;
-  } else {
-    // Interés 20%
+  } else { // Interés 20%
     prestamoConInteres = prestamo + (prestamo * 20) / 100;
   }
 
@@ -17,6 +14,27 @@ const calculoIntereses = (prestamo, cuotas) => {
 
   return valorCuota;
 };
+
+// Función que obtiene las cotizaciones del dólar y elimina las que no deseamos mostrar.
+async function cotizacionDolar() {
+  let response = await fetch(URL);
+  let data = await response.json();
+
+  data.splice(7, 8, 2);
+  data.splice(2, 1);
+  data.splice(4, 1);
+  data.splice(5, 1);
+
+  return data;
+}
+
+// Función que obtiene la cotización del dólar oficial.
+async function obtenerPrestamoEnDolares() {
+  let response = await fetch(URL);
+  let data = await response.json();
+  let dolar = data[0].casa.venta;
+  return dolar;
+}
 
 // Inicializamos el array que contendrá el historial de préstamos del usuario.
 let prestamos = [];
@@ -34,27 +52,6 @@ let historialPrestamos = document.querySelector(".historial");
 let alerta = document.querySelector(".alert");
 let solicitarButton = document.querySelector(".solicitar__button");
 let tablaCotizaciones = document.querySelector(".cotizaciones__table");
-
-// Obtenemos las cotizaciones del dólar, eliminamos las que no deseamos mostrar y creamos una tabla con la información.
-async function cotizacionDolar() {
-  let response = await fetch(URL);
-  let data = await response.json();
-
-  data.splice(7, 8, 2);
-  data.splice(2, 1);
-  data.splice(4, 1);
-
-  data.forEach((data) => {
-    let dolar = document.createElement("tr");
-    dolar.classList.add("dolar");
-    dolar.innerHTML = "<td>" + data.casa.nombre + "</td>";
-    dolar.innerHTML += "<td>" + data.casa.compra + "</td>";
-    dolar.innerHTML += "<td>" + data.casa.venta + "</td>";
-    tablaCotizaciones.append(dolar);
-  });
-}
-
-cotizacionDolar();
 
 // Obtenemos el valor del rango del préstamo.
 rangoImporte.addEventListener("mousemove", () => {
@@ -92,10 +89,7 @@ formContainer.addEventListener("submit", (e) => {
   fechaVencimiento.innerText = fechaFormateada;
 
   // Mostramos el valor del préstamo en pesos y cotizado al dólar oficial.
-  fetch(URL)
-    .then((response) => response.json())
-    .then((data) => {
-      let dolar = data[0].casa.venta;
+    obtenerPrestamoEnDolares().then((dolar) => {
       let prestamoEnDolar = parseFloat(rangoImporte.value) / parseFloat(dolar);
       resultPrestamo.innerText =
         "$" + rangoImporte.value + " - " + Math.round(prestamoEnDolar) + " USD";
@@ -147,16 +141,18 @@ formContainer.addEventListener("submit", (e) => {
       let historialInfo = document.createElement("div");
 
       historialInfo.classList.add("text__historial");
-      for (let i = 0; i <= prestamosHistorial.length; i++) {
-        historialInfo.innerHTML =
-          "<h6>Prestamo " + prestamosHistorial[i].id + "</h6>";
-        historialInfo.innerHTML +=
-          "<p>Importe: " + prestamosHistorial[i].prestamo + "</p>";
-        historialInfo.innerHTML +=
-          "<p>Cantidad de cuotas: " + prestamosHistorial[i].cuotas + "</p>";
-        historialInfo.innerHTML +=
-          "<p>Valor de cuotas: " + prestamosHistorial[i].valorCuota + "</p>";
-        historialPrestamos.append(historialInfo);
+      for (let i = 0; i < prestamosHistorial.length; i++) {
+        if (prestamosHistorial[i]) {
+          historialInfo.innerHTML =
+            "<h6>Prestamo " + prestamosHistorial[i].id + "</h6>";
+          historialInfo.innerHTML +=
+            "<p>Importe: " + prestamosHistorial[i].prestamo + "</p>";
+          historialInfo.innerHTML +=
+            "<p>Cantidad de cuotas: " + prestamosHistorial[i].cuotas + "</p>";
+          historialInfo.innerHTML +=
+            "<p>Valor de cuotas: " + prestamosHistorial[i].valorCuota + "</p>";
+          historialPrestamos.append(historialInfo);
+        }
       }
     }
   });
@@ -189,10 +185,21 @@ solicitarButton.addEventListener("click", () => {
 resetButton.addEventListener("click", () => {
   formContainer.style.display = "flex";
   resultsContainer.style.display = "none";
-  alerta.style.display = "none";
 });
 
 // Se muestra y se oculta la sección de historial cuando se hace click en el botón.
 historialButton.addEventListener("click", () => {
   historialPrestamos.classList.toggle("show");
 });
+
+// Imprimimos las cotizaciones del dólar en una tabla.
+cotizacionDolar().then((data) =>
+  data.forEach((data) => {
+    let dolar = document.createElement("tr");
+    dolar.classList.add("dolar");
+    dolar.innerHTML = "<td>" + data?.casa?.nombre + "</td>";
+    dolar.innerHTML += "<td>" + data?.casa?.compra + "</td>";
+    dolar.innerHTML += "<td>" + data?.casa?.venta + "</td>";
+    tablaCotizaciones.append(dolar);
+  })
+);
